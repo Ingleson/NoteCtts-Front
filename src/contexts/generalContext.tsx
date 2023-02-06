@@ -81,7 +81,6 @@ function GeneralProvider({ children }: IGeneralProviders) {
   const [contactToDelete, setContactToDelete] = useState("");
 
   const onSubmitLogin:SubmitHandler<FieldValues> = (data) => {
-    console.log(data)
     api.post("/login/", data)
       .then((res) => {
         localStorage.setItem("@token", res.data.token);
@@ -118,9 +117,9 @@ function GeneralProvider({ children }: IGeneralProviders) {
       })
   }
 
-  const onDeleteUser = () => {
+  const onDeleteUser = async () => {
     api.defaults.headers.Authorization = `bearer ${localStorage.getItem("@token")}`
-    api.delete("/user/")
+    await api.delete("/user/")
       .then((res) => {
         localStorage.clear()
         navigate("", {replace: true})
@@ -131,29 +130,31 @@ function GeneralProvider({ children }: IGeneralProviders) {
       })
   }
 
-  const onDeleteContact = () => {
+  const onDeleteContact = async () => {
     
     api.defaults.headers.Authoriation = `bearer ${localStorage.getItem("@token")}`
-    api.delete(`/contact/${contactToDelete}/`)
+    await api.delete(`/contact/${contactToDelete}/`)
       .then((res) => {
         setModalDeleteContact(!modalDeleteContact)
       })
       .catch((err) => {
         console.log(err)
       })
-
   }
 
+    useEffect(() => {
+      listData()
+    })
 
-  useEffect(() => {
-    if(localStorage.getItem("@token")) {
-      api.defaults.headers.Authorization = `bearer ${localStorage.getItem("@token")}`
-      api.get("/user/")
-        .then((res) => {
-          setUserData(res.data)
-        })
+    const listData = async () => {
+      if(localStorage.getItem("@token")) {
+        api.defaults.headers.Authorization = `bearer ${localStorage.getItem("@token")}`
+        await api.get("/user/")
+          .then((res) => {
+            setUserData(res.data)
+          })
+      }
     }
-  }, [userData])
 
   const logout = () => {
     localStorage.clear()
