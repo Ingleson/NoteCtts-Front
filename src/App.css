@@ -1,0 +1,27 @@
+.App {
+  text-align: center;
+  background-color: #49ccc1;
+  color: #f8f9fa;
+  height: 100vh;
+}
+
+button {
+  cursor: pointer;
+}
+button:hover {
+  opacity: 80%;
+}
+
+ul::-webkit-scrollbar {
+  width: 15px;         
+}
+
+ul::-webkit-scrollbar-track {
+  background: #49ccc1;      
+}
+
+ul::-webkit-scrollbar-thumb {
+  background-color: #F0E68C;   
+  border-radius: 20px;       
+  border: 3px solid #49ccc1;  
+}
