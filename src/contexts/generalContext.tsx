@@ -78,6 +78,7 @@ function GeneralProvider({ children }: IGeneralProviders) {
       .then((res) => {
         localStorage.setItem("@token", res.data.token);
         navigate("/dashboard", { replace: true })
+        window.location.reload()
       })
       .catch((err) => {
         console.log(err)
@@ -113,9 +114,9 @@ function GeneralProvider({ children }: IGeneralProviders) {
     api.defaults.headers.Authorization = `bearer ${localStorage.getItem("@token")}`
     api.delete("/user/")
       .then(() => {
-        console.log("09")
         setModalDeleteUser(!modalDeleteUser)
-        logout()
+        localStorage.clear()
+        navigate("", {replace: true})
       })
       .catch((err) => {
         console.log(err)
@@ -131,7 +132,7 @@ function GeneralProvider({ children }: IGeneralProviders) {
           setUserData(res.data)
         })
     }
-  }, [])
+  }, [userData])
 
   const logout = () => {
     localStorage.clear()

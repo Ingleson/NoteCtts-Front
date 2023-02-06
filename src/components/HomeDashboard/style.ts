@@ -1,10 +1,13 @@
 import styled from "styled-components";
+import "animate.css"
 
 export const BaseDash = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
+
+  animation: fadeIn 3s;
 
   header {
     width: 100%;
@@ -14,6 +17,7 @@ export const BaseDash = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 30px 50px;
+    border-bottom: 2px solid #ffffff;
 
     h2 {
       font-size: 18px;
@@ -30,7 +34,7 @@ export const BaseDash = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 100%;
+    height: 89%;
 
     aside {
       border-right: 1px solid;
@@ -62,8 +66,9 @@ export const BaseDash = styled.div`
       justify-content: center;
       align-items: center;
       width: 100%;
-      height: 100%;
+      height: 99%;
       border-radius: 10px;
+      padding: 20px;
       gap: 50px;
 
       overflow-x: hidden;
