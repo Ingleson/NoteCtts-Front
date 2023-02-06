@@ -1,4 +1,4 @@
-import { DeepRequired, FieldErrorsImpl, SubmitHandler } from "react-hook-form"
+import { DeepRequired, FieldErrorsImpl, FieldValues, SubmitHandler } from "react-hook-form"
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
@@ -9,19 +9,25 @@ interface IGeneralProviders {
 interface IGeneralContext {
   loginScreen: boolean
   setLoginScreen: React.Dispatch<React.SetStateAction<boolean>>
-  onSubmitLogin: SubmitHandler<ILoginUser>
-  onSubmitRegister: SubmitHandler<IRegisterUser>
-  onSubmitCreateContact: SubmitHandler<ICreateContact>
+  onSubmitLogin: SubmitHandler<FieldValues>
+  onSubmitRegister: SubmitHandler<FieldValues>
+  onSubmitCreateContact: SubmitHandler<FieldValues>
   userData: null | IUser
   setModalCreateContact: React.Dispatch<React.SetStateAction<boolean>>
   modalCreateContact: boolean
   logout: () => void
   setModalUpdateUser: React.Dispatch<React.SetStateAction<boolean>>
   modalUpdateUser: boolean
-  onSubmitUpdateUser: SubmitHandler<IUpdateUser>
+  onSubmitUpdateUser: SubmitHandler<FieldValues>
   setModalDeleteUser: React.Dispatch<React.SetStateAction<boolean>>
   modalDeleteUser: boolean
+  onDeleteUser: () => void
+  setContactToDelete: React.Dispatch<React.SetStateAction<string>>
+  contactToDelete:  string
   onDeleteContact: () => void
+  setModalDeleteContact: React.Dispatch<React.SetStateAction<boolean>>
+  modalDeleteContact: boolean
+
 }
 interface IRegisterUser {
   full_name: string
@@ -71,8 +77,10 @@ function GeneralProvider({ children }: IGeneralProviders) {
   const [modalCreateContact, setModalCreateContact] = useState(false);
   const [modalUpdateUser, setModalUpdateUser] = useState(false);
   const [modalDeleteUser, setModalDeleteUser] = useState(false);
+  const [modalDeleteContact, setModalDeleteContact] = useState(false);
+  const [contactToDelete, setContactToDelete] = useState("");
 
-  const onSubmitLogin:SubmitHandler<ILoginUser> = (data) => {
+  const onSubmitLogin:SubmitHandler<FieldValues> = (data) => {
     console.log(data)
     api.post("/login/", data)
       .then((res) => {
@@ -84,7 +92,7 @@ function GeneralProvider({ children }: IGeneralProviders) {
         console.log(err)
       })
   }
-  const onSubmitRegister: SubmitHandler<IRegisterUser> = (data) => {
+  const onSubmitRegister: SubmitHandler<FieldValues> = (data) => {
     api.post("/user/", data)
       .then((res) => {
         setLoginScreen(!loginScreen)
@@ -93,7 +101,7 @@ function GeneralProvider({ children }: IGeneralProviders) {
         console.log(err)
       })
   }
-  const onSubmitCreateContact: SubmitHandler<ICreateContact> = (data) => {
+  const onSubmitCreateContact: SubmitHandler<FieldValues> = (data) => {
     api.defaults.headers.Authorization = `bearer ${localStorage.getItem("@token")}`
     api.post("/contact/", data)
       .then(() => setModalCreateContact(!modalCreateContact))
@@ -101,7 +109,7 @@ function GeneralProvider({ children }: IGeneralProviders) {
         console.log(err)
       })
   }
-  const onSubmitUpdateUser: SubmitHandler<IUpdateUser> = (data) => {
+  const onSubmitUpdateUser: SubmitHandler<FieldValues> = (data) => {
     api.defaults.headers.Authorization = `bearer ${localStorage.getItem("@token")}`
     api.patch("/user/", data)
       .then(() => setModalUpdateUser(!modalUpdateUser))
@@ -110,17 +118,30 @@ function GeneralProvider({ children }: IGeneralProviders) {
       })
   }
 
-  const onDeleteContact = () => {
+  const onDeleteUser = () => {
     api.defaults.headers.Authorization = `bearer ${localStorage.getItem("@token")}`
     api.delete("/user/")
-      .then(() => {
-        setModalDeleteUser(!modalDeleteUser)
+      .then((res) => {
         localStorage.clear()
         navigate("", {replace: true})
+        setModalDeleteUser(!modalDeleteUser)
       })
       .catch((err) => {
         console.log(err)
       })
+  }
+
+  const onDeleteContact = () => {
+    
+    api.defaults.headers.Authoriation = `bearer ${localStorage.getItem("@token")}`
+    api.delete(`/contact/${contactToDelete}/`)
+      .then((res) => {
+        setModalDeleteContact(!modalDeleteContact)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
   }
 
 
@@ -156,7 +177,12 @@ function GeneralProvider({ children }: IGeneralProviders) {
         onSubmitUpdateUser,
         modalDeleteUser,
         setModalDeleteUser,
-        onDeleteContact
+        onDeleteUser,
+        contactToDelete,
+        setContactToDelete,
+        onDeleteContact,
+        modalDeleteContact,
+        setModalDeleteContact
       }
     }> 
       {children}

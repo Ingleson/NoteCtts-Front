@@ -12,7 +12,11 @@ const HomeDashboard = () => {
     setModalUpdateUser, 
     modalUpdateUser,
     modalDeleteUser,
-    setModalDeleteUser
+    setModalDeleteUser,
+    setContactToDelete,
+    modalDeleteContact,
+    setModalDeleteContact,
+    contactToDelete
   } = useContext(GeneralContext);
 
   return (
@@ -37,7 +41,7 @@ const HomeDashboard = () => {
               <h1>Sem contatos adicionados</h1>
               :
               userData?.contacts.map((contact) => (
-                <li key={contact.id} id={contact.id}>
+                <li key={contact.id} id={contact.id} >
                   <div className="box-name-email">
                     <h3>{contact.full_name}</h3>
                     <h3>{contact.email}</h3>
@@ -47,7 +51,10 @@ const HomeDashboard = () => {
                       <span>({contact.number.substr(0,2)}) {contact?.number.substring(2,11)}</span>
                       <span>{contact.createdAt.substr(0,10)} - {userData?.createdAt.substr(11,8)}</span>
                     </div>
-                    <button>Excluir</button>
+                    <button onClick={() => {
+                      setContactToDelete(contact.id) 
+                      setModalDeleteContact(!modalDeleteContact)
+                    }}>Excluir</button>
                   </div>
                 </li>
               ))

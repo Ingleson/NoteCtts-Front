@@ -4,7 +4,7 @@ import { GeneralContext } from "../../contexts/generalContext";
 
 const DeleteUserModal = () => {
 
-  const { onDeleteContact, modalDeleteUser, setModalDeleteUser } = useContext(GeneralContext);
+  const { onDeleteUser, modalDeleteUser, setModalDeleteUser } = useContext(GeneralContext);
 
   return (
     <DeleteModal>
@@ -12,7 +12,7 @@ const DeleteUserModal = () => {
         <div className="base-div-modal">
           <h2>Realmente deseja apagar sua conta?</h2>
           <div>
-            <button onClick={() => onDeleteContact()}  className="excluir">Excluir</button>
+            <button onClick={() => onDeleteUser()}  className="excluir">Excluir</button>
             <button onClick={() => setModalDeleteUser(!modalDeleteUser)} className="voltar">voltar</button>
           </div>
         </div>
