@@ -85,7 +85,6 @@ function GeneralProvider({ children }: IGeneralProviders) {
       .then((res) => {
         localStorage.setItem("@token", res.data.token);
         navigate("/dashboard", { replace: true })
-        window.location.reload()
       })
       .catch((err) => {
         console.log(err)
