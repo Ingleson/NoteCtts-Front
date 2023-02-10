@@ -35,6 +35,7 @@ const Login = () => {
             <label htmlFor="email">Email:</label>
             <input type="text" 
               placeholder="example@email.com"
+              autoComplete="off"
               {...register("email")}   
             />
             {/* <span>{errors?.email?.message}</span> */}

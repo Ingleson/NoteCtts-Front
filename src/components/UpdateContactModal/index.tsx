@@ -6,11 +6,11 @@ import { UpdateModal } from "./style";
 import { useContext } from "react";
 import { GeneralContext } from "../../contexts/generalContext";
 
-const UpdateUserModal = () => {
+const UpdateContactModal = () => {
 
-  const { setModalUpdateUser, modalUpdateUser, onSubmitUpdateUser} = useContext(GeneralContext);
+  const { modalUpdateContact, setModalUpdateContact, onUpdateContact } = useContext(GeneralContext);
 
-  const formUpdateUserSchema = yup.object().shape({
+  const formUpdateContactSchema = yup.object().shape({
     full_name: yup.string(),
     email: yup.string(),
     number: yup.string()
@@ -21,7 +21,7 @@ const UpdateUserModal = () => {
     handleSubmit,
     formState: {errors}
   } = useForm({
-    resolver:yupResolver(formUpdateUserSchema)
+    resolver:yupResolver(formUpdateContactSchema)
   })
   
   return (
@@ -29,10 +29,10 @@ const UpdateUserModal = () => {
       <section>
         <div className="base-div-modal">
           <header>
-            <h2>Atualizar Usuário</h2>
-            <button onClick={() => setModalUpdateUser(!modalUpdateUser)}>x</button>
+            <h2>Atualizar Contato</h2>
+            <button onClick={() => setModalUpdateContact(!modalUpdateContact)}>x</button>
           </header>
-          <form onSubmit={handleSubmit(onSubmitUpdateUser)}>
+          <form onSubmit={handleSubmit(onUpdateContact)}>
             <div>
               <label htmlFor="full_name">Nome:</label>
               <input type="text" 
@@ -67,4 +67,4 @@ const UpdateUserModal = () => {
   )
 }
 
-export default UpdateUserModal;
+export default UpdateContactModal;

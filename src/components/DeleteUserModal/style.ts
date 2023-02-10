@@ -16,17 +16,18 @@ export const DeleteModal = styled.div`
     width: 30%;
     min-width: 300px;
 
+    border: 1px solid #fff;
+    border-radius: 5px;
+
     .base-div-modal{
       width: 100%;
       height: 200px;
       background-color: #F0E68C;
-      border-radius: 5px;
-      border: 1px solid #fff;
 
       text-shadow: -1px -1px 3px #000000;
 
       h2 {
-        padding-top: 20px;
+        padding-top: 30px;
       }
 
       div {

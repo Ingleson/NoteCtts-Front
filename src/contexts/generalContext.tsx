@@ -2,42 +2,37 @@ import { DeepRequired, FieldErrorsImpl, FieldValues, SubmitHandler } from "react
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import { toast } from "react-toastify";
 
 interface IGeneralProviders {
   children: ReactNode;
 }
 interface IGeneralContext {
-  loginScreen: boolean
   setLoginScreen: React.Dispatch<React.SetStateAction<boolean>>
+  loginScreen: boolean
+  setModalCreateContact: React.Dispatch<React.SetStateAction<boolean>>
+  modalCreateContact: boolean
+  setModalUpdateUser: React.Dispatch<React.SetStateAction<boolean>>
+  modalUpdateUser: boolean
+  setModalDeleteUser: React.Dispatch<React.SetStateAction<boolean>>
+  modalDeleteUser: boolean
+  setModalUpdateContact: React.Dispatch<React.SetStateAction<boolean>>
+  modalUpdateContact: boolean
+  setModalDeleteContact: React.Dispatch<React.SetStateAction<boolean>>
+  modalDeleteContact: boolean
+  setContactSelected: React.Dispatch<React.SetStateAction<string>>
+  contactSelected:  string
+
   onSubmitLogin: SubmitHandler<FieldValues>
   onSubmitRegister: SubmitHandler<FieldValues>
   onSubmitCreateContact: SubmitHandler<FieldValues>
-  userData: null | IUser
-  setModalCreateContact: React.Dispatch<React.SetStateAction<boolean>>
-  modalCreateContact: boolean
-  logout: () => void
-  setModalUpdateUser: React.Dispatch<React.SetStateAction<boolean>>
-  modalUpdateUser: boolean
   onSubmitUpdateUser: SubmitHandler<FieldValues>
-  setModalDeleteUser: React.Dispatch<React.SetStateAction<boolean>>
-  modalDeleteUser: boolean
+  onUpdateContact: SubmitHandler<FieldValues>
   onDeleteUser: () => void
-  setContactToDelete: React.Dispatch<React.SetStateAction<string>>
-  contactToDelete:  string
   onDeleteContact: () => void
-  setModalDeleteContact: React.Dispatch<React.SetStateAction<boolean>>
-  modalDeleteContact: boolean
 
-}
-interface IRegisterUser {
-  full_name: string
-  email: string
-  password: string
-  number: string
-}
-interface ILoginUser {
-  email: string
-  password: string
+  userData: null | IUser
+  logout: () => void
 }
 interface IUser {
   id: string
@@ -54,17 +49,6 @@ interface IUserContacts {
   number: string
   createdAt: string
 }
-interface ICreateContact {
-  full_name: string
-  email: string,
-  number: string
-}
-interface IUpdateUser {
-  full_name?: string
-  email?: string
-  number?: string
-}
-
 
 export const GeneralContext = createContext<IGeneralContext>({} as IGeneralContext);
 
@@ -77,8 +61,9 @@ function GeneralProvider({ children }: IGeneralProviders) {
   const [modalCreateContact, setModalCreateContact] = useState(false);
   const [modalUpdateUser, setModalUpdateUser] = useState(false);
   const [modalDeleteUser, setModalDeleteUser] = useState(false);
+  const [modalUpdateContact, setModalUpdateContact] = useState(false);
   const [modalDeleteContact, setModalDeleteContact] = useState(false);
-  const [contactToDelete, setContactToDelete] = useState("");
+  const [contactSelected, setContactSelected] = useState("");
 
   const onSubmitLogin:SubmitHandler<FieldValues> = (data) => {
     api.post("/login/", data)
@@ -88,12 +73,14 @@ function GeneralProvider({ children }: IGeneralProviders) {
       })
       .catch((err) => {
         console.log(err)
+        toast.error('Senha e/ou email inválidos.', {theme: "dark"})
       })
   }
   const onSubmitRegister: SubmitHandler<FieldValues> = (data) => {
     api.post("/user/", data)
       .then((res) => {
         setLoginScreen(!loginScreen)
+        toast.success('Conta criada com sucesso!', {theme: "dark"})
       })
       .catch((err) => {
         console.log(err)
@@ -102,7 +89,10 @@ function GeneralProvider({ children }: IGeneralProviders) {
   const onSubmitCreateContact: SubmitHandler<FieldValues> = (data) => {
     api.defaults.headers.Authorization = `bearer ${localStorage.getItem("@token")}`
     api.post("/contact/", data)
-      .then(() => setModalCreateContact(!modalCreateContact))
+      .then(() => {
+        setModalCreateContact(!modalCreateContact) 
+        toast.success('Novo contato adicionado.', {theme: "dark"})
+      })
       .catch((err) => {
         console.log(err)
       })
@@ -110,7 +100,10 @@ function GeneralProvider({ children }: IGeneralProviders) {
   const onSubmitUpdateUser: SubmitHandler<FieldValues> = (data) => {
     api.defaults.headers.Authorization = `bearer ${localStorage.getItem("@token")}`
     api.patch("/user/", data)
-      .then(() => setModalUpdateUser(!modalUpdateUser))
+      .then(() => {
+        setModalUpdateUser(!modalUpdateUser)
+        toast.success('Dados atualizados.', {theme: "dark"})
+      })
       .catch((err) => {
         console.log(err)
       })
@@ -123,42 +116,69 @@ function GeneralProvider({ children }: IGeneralProviders) {
         localStorage.clear()
         navigate("", {replace: true})
         setModalDeleteUser(!modalDeleteUser)
+        toast.success('Sua conta foi apagada.', {theme: "dark"})
       })
       .catch((err) => {
         console.log(err)
       })
   }
 
-  const onDeleteContact = async () => {
+  const onDeleteContact = () => {
     
-    api.defaults.headers.Authoriation = `bearer ${localStorage.getItem("@token")}`
-    await api.delete(`/contact/${contactToDelete}/`)
+    api.defaults.headers.Authorization = `bearer ${localStorage.getItem("@token")}`
+    api.delete(`/contact/${contactSelected}/`)
       .then((res) => {
         setModalDeleteContact(!modalDeleteContact)
+        toast.success('Contado Apagado.', {theme: "dark"})
       })
       .catch((err) => {
         console.log(err)
       })
   }
 
-    useEffect(() => {
-      listData()
-    })
+  const onUpdateContact: SubmitHandler<FieldValues> = (data) => {
 
-    const listData = async () => {
-      if(localStorage.getItem("@token")) {
-        api.defaults.headers.Authorization = `bearer ${localStorage.getItem("@token")}`
-        await api.get("/user/")
-          .then((res) => {
-            setUserData(res.data)
-          })
-      }
-    }
+    api.defaults.headers.Authorization = `bearer ${localStorage.getItem("@token")}`
+    api.patch(`/contact/${contactSelected}/`, data)
+      .then((res) => {
+        setModalUpdateContact(!modalUpdateContact)
+        toast.success('Contado atualizado.', {theme: "dark"})
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  useEffect(() => {
+    dataRender()
+  })
+
+  const dataRender = async () => {
+    api.defaults.headers.Authorization = `bearer ${localStorage.getItem('@token')}`
+    await api.get("/user/")
+      .then((res) => {
+        setUserData(res.data)
+      })
+  }
 
   const logout = () => {
     localStorage.clear()
     navigate("", {replace: true})
   }
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const token = localStorage.getItem("@token");
+      
+      if(token) {
+        navigate("dashboard", {replace: true})
+      }
+      else {
+        navigate("", {replace: true})
+      }
+    }
+    loadUser();
+  }, [])
 
   return (
     <GeneralContext.Provider value={
@@ -178,11 +198,14 @@ function GeneralProvider({ children }: IGeneralProviders) {
         modalDeleteUser,
         setModalDeleteUser,
         onDeleteUser,
-        contactToDelete,
-        setContactToDelete,
+        contactSelected,
+        setContactSelected,
         onDeleteContact,
+        setModalDeleteContact,
         modalDeleteContact,
-        setModalDeleteContact
+        setModalUpdateContact,
+        modalUpdateContact,
+        onUpdateContact
       }
     }> 
       {children}

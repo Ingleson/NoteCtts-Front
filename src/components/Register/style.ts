@@ -24,9 +24,12 @@ export const RegisterForm = styled.main`
   margin: 0 auto;
   padding: 30px 40px;
   gap: 20px;
-  width: 25rem;
+  width: 23rem;
   
   background-color: #008080;
+
+  border: 1px solid #ffffff;
+  border-radius: 5px;
 
   button {
     border: none;

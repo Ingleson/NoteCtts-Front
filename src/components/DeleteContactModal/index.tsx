@@ -10,7 +10,7 @@ const DeleteContactModal = () => {
     <DeleteModal>
       <section>
         <div className="base-div-modal">
-          <h2>Deseja excluir este contato?</h2>
+          <h2>Você realmente deseja excluir este contato?</h2>
           <div>
             <button onClick={() => onDeleteContact()}  className="excluir">Excluir</button>
             <button onClick={() => setModalDeleteContact(!modalDeleteContact)} className="voltar">voltar</button>

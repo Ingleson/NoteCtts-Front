@@ -39,6 +39,7 @@ const Register = () => {
             <label htmlFor="full_name">Nome:</label>
             <input type="text" 
               placeholder="Nome completo"
+              autoComplete="off"
               {...register("full_name")}
             />
             {/* <span>{errors?.full_name?.message}</span> */}
@@ -47,6 +48,7 @@ const Register = () => {
             <label htmlFor="email">Email:</label>
             <input type="text" 
               placeholder="example@email.com"
+              autoComplete="off"
               {...register("email")}
             />
             {/* <span>{errors?.email?.message}</span> */}

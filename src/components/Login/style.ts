@@ -37,6 +37,9 @@ export const LoginForm = styled.main`
   
   background-color: #008080;
 
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+
   h2 {
     text-shadow: -1px -1px 5px #000000;
     font-style: italic;

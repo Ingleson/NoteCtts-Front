@@ -25,6 +25,9 @@ export const CreateModal = styled.div`
 
       text-shadow: -1px -1px 3px #000000;
 
+      button:hover {
+        background-color: #FF4500;
+      }
       
       header {
         display: flex;

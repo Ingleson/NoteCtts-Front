@@ -26,7 +26,7 @@ export const DeleteModal = styled.div`
       text-shadow: -1px -1px 3px #000000;
 
       h2 {
-        padding-top: 20px;
+        padding-top: 30px;
       }
 
       div {
