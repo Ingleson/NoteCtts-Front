@@ -10,19 +10,11 @@ const UpdateUserModal = () => {
 
   const { setModalUpdateUser, modalUpdateUser, onSubmitUpdateUser} = useContext(GeneralContext);
 
-  const formUpdateUserSchema = yup.object().shape({
-    full_name: yup.string(),
-    email: yup.string(),
-    number: yup.string()
-  })
-
   const {
     register,
     handleSubmit,
     formState: {errors}
-  } = useForm({
-    resolver:yupResolver(formUpdateUserSchema)
-  })
+  } = useForm()
   
   return (
     <UpdateModal>
@@ -40,7 +32,6 @@ const UpdateUserModal = () => {
                 autoComplete="off"
                 {...register("full_name")}
               />
-              {/* <span>{errors?.full_name?.message}</span> */}
             </div>
             <div>
               <label htmlFor="email">Email:</label>
@@ -49,7 +40,6 @@ const UpdateUserModal = () => {
                 autoComplete="off"
                 {...register("email")}
               />
-              {/* <span>{errors?.email?.message}</span> */}
             </div>
             <div>
               <label htmlFor="number">Número</label>
@@ -57,7 +47,6 @@ const UpdateUserModal = () => {
                 placeholder="11981828384"
                 {...register("number")}
               />
-              {/* <span>{errors?.number?.message}</span> */}
             </div>
             <button type="submit">Criar</button>
           </form>

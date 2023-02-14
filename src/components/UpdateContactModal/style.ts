@@ -73,10 +73,6 @@ export const UpdateModal = styled.div`
 
             padding: 15px 0 15px 10px;
           }
-          span {
-            color: #B22222;
-            margin: 0;
-          }
         }
         button {
           width: 40%;

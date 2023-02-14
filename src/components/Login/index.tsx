@@ -38,7 +38,9 @@ const Login = () => {
               autoComplete="off"
               {...register("email")}   
             />
-            {/* <span>{errors?.email?.message}</span> */}
+            {errors.email && typeof errors.email.message === 'string' && (
+              <span>{errors.email.message}</span>
+            )}
           </div>
           <div>
             <label htmlFor="password">Senha:</label>
@@ -46,7 +48,9 @@ const Login = () => {
               placeholder="***********"
               {...register("password")}
             />
-            {/* <span>{errors?.password?.message}</span> */}
+            {errors.password && typeof errors.password.message === 'string' && (
+              <span>{errors.password.message}</span>
+            )}
           </div>
           <button type="submit">Entrar</button>
         </form>

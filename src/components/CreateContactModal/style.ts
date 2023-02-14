@@ -18,7 +18,6 @@ export const CreateModal = styled.div`
 
     .base-div-modal{
       width: 100%;
-      height: 400px;
       background-color: #F0E68C;
       border-radius: 5px;
       border: 1px solid #fff;
@@ -52,7 +51,8 @@ export const CreateModal = styled.div`
       form {
         display: flex;
         flex-direction: column;
-        padding: 0 30px;
+        justify-content: center;
+        padding: 0 30px 20px 30px;
         gap:15px;
 
         div {
@@ -76,12 +76,15 @@ export const CreateModal = styled.div`
           span {
             color: #B22222;
             margin: 0;
+            font-size: 10px;
+            padding: 5px 2px;
           }
         }
         button {
           width: 40%;
           height: 2rem;
           margin: 0 auto;
+          
 
           background-color: #49ccc1;
           color: #fff;

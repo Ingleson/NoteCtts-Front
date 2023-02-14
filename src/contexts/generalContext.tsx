@@ -1,11 +1,11 @@
-import { DeepRequired, FieldErrorsImpl, FieldValues, SubmitHandler } from "react-hook-form"
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { FieldErrors, FieldValues, SubmitHandler } from "react-hook-form"
+import { createContext, ReactNode, ReactPortal, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { toast } from "react-toastify";
 
 interface IGeneralProviders {
-  children: ReactNode;
+  children: ReactPortal
 }
 interface IGeneralContext {
   setLoginScreen: React.Dispatch<React.SetStateAction<boolean>>

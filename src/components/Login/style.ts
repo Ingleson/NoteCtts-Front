@@ -84,6 +84,9 @@ export const LoginForm = styled.main`
     span {
       color: #B22222;
       margin: 0;
+      font-size: 12px;
+      padding: 5px 2px;
+      text-shadow: -1px -1px 7px #000;
     }
   }
 `

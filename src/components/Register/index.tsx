@@ -15,7 +15,7 @@ const Register = () => {
     full_name: yup.string().required("Precisa do seu nome completo").matches(/.{8,}/, "Deve conter ao menos 8 caracteres"),
     email: yup.string().required("Email é obrigatório").email("Email invalido"),
     password: yup.string().required("Senha é obrigatória"),
-    number: yup.string().required("precisa de um numero").matches(/.{8,}/, "Deve conter ao menos 8 caracteres"),
+    number: yup.string().required("precisa de um numero").matches(/.{11,11}/, "Deve conter exatos 11 caracteres"),
   })
 
   const {
@@ -42,7 +42,9 @@ const Register = () => {
               autoComplete="off"
               {...register("full_name")}
             />
-            {/* <span>{errors?.full_name?.message}</span> */}
+            {errors.full_name && typeof errors.full_name.message === 'string' && (
+              <span>{errors.full_name.message}</span>
+            )}
           </div>
           <div>
             <label htmlFor="email">Email:</label>
@@ -51,7 +53,9 @@ const Register = () => {
               autoComplete="off"
               {...register("email")}
             />
-            {/* <span>{errors?.email?.message}</span> */}
+            {errors.email && typeof errors.email.message === 'string' && (
+              <span>{errors.email.message}</span>
+            )}
           </div>
           <div>
             <label htmlFor="password">Senha:</label>
@@ -59,7 +63,9 @@ const Register = () => {
               placeholder="*************"
               {...register("password")}
             />
-            {/* <span>{errors?.password?.message}</span> */}
+            {errors.password && typeof errors.password.message === 'string' && (
+              <span>{errors.password.message}</span>
+            )}
           </div>
           <div>
             <label htmlFor="number">Número</label>
@@ -67,7 +73,9 @@ const Register = () => {
               placeholder="11981828384"
               {...register("number")}
             />
-            {/* <span>{errors?.number?.message}</span> */}
+            {errors.number && typeof errors.number.message === 'string' && (
+              <span>{errors.number.message}</span>
+            )}
           </div>
           <button type="submit">Cadastrar</button>
         </form>

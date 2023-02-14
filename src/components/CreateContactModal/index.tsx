@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { useForm, FieldErrors } from "react-hook-form";
 
 import { CreateModal } from "./style";
 import { useContext } from "react";
@@ -40,7 +40,9 @@ const CreateContactModal = () => {
                 autoComplete="off"
                 {...register("full_name")}
               />
-              {/* <span>{errors?.full_name?.message}</span> */}
+              {errors.full_name && typeof errors.full_name.message === 'string' && (
+                <span>{errors.full_name.message}</span>
+              )}
             </div>
             <div>
               <label htmlFor="email">Email:</label>
@@ -49,7 +51,9 @@ const CreateContactModal = () => {
                 autoComplete="off"
                 {...register("email")}
               />
-              {/* <span>{errors?.email?.message}</span> */}
+              {errors.email && typeof errors.email.message === 'string' && (
+                <span>{errors.email.message}</span>
+              )}
             </div>
             <div>
               <label htmlFor="number">Número</label>
@@ -57,7 +61,9 @@ const CreateContactModal = () => {
                 placeholder="11981828384"
                 {...register("number")}
               />
-              {/* <span>{errors?.number?.message}</span> */}
+              {errors.number && typeof errors.number.message === 'string' && (
+                <span>{errors.number.message}</span>
+              )}
             </div>
             <button type="submit">Criar</button>
           </form>
