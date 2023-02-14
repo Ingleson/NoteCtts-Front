@@ -5,7 +5,7 @@ import api from "../services/api";
 import { toast } from "react-toastify";
 
 interface IGeneralProviders {
-  children: ReactPortal
+  children: ReactNode | ReactPortal
 }
 interface IGeneralContext {
   setLoginScreen: React.Dispatch<React.SetStateAction<boolean>>
